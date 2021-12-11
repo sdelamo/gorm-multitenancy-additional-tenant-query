@@ -1,3 +1,8 @@
+grails:
+    gorm:
+        multiTenancy:
+            mode: DISCRIMINATOR
+            tenantResolverClass: org.grails.datastore.mapping.multitenancy.web.SessionTenantResolver
 ---
 grails:
     profile: web
@@ -103,7 +108,8 @@ dataSource:
     driverClassName: org.h2.Driver
     username: sa
     password: ''
-
+    logSql: true
+    formatSql: true
 environments:
     development:
         dataSource:

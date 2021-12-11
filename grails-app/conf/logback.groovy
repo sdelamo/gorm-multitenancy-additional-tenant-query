@@ -34,4 +34,5 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
+logger("grails.gorm.multitenancy", DEBUG, ['STDOUT'])
 root(ERROR, ['STDOUT'])
