@@ -39,11 +39,18 @@ class BooksController implements GrailsConfigurationAware {
 
     private Map<String, Object> modelByTenantId(GrailsParameterMap params, String... tenantIds) {
         int page = params.int("page", 1)
+        String sortPropertyName = params.get("sort")?.toString()
+        String direction = params.get("order")?.toString()
         int offset = max * (page - 1)
+        QueryArgs args = QueryArgs.builder()
+                .offset(offset)
+                .max(max)
+                .order(QueryArgs.orderOf(sortPropertyName, direction))
+                .build()
         Tenants.withId(tenantIds.first()) {
             String additionalTenant = tenantIds.length > 1 ? tenantIds.last() : null
             Number numberOfBooks = bookService.count(additionalTenant)
-            List<Book> books = bookService.find([offset: offset, max: max], additionalTenant)
+            List<Book> books = bookService.find(args, additionalTenant)
             int totalPages = (int) Math.ceil((numberOfBooks / max) as double)
             List<Page> pages = []
             for (int i = 1; i <= totalPages; i++) {

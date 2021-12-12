@@ -22,27 +22,23 @@ abstract class BookService extends DataService<Book> {
     }
 
     @Override
-    DetachedCriteria<Book> criteriaWithAdditionalTenant(String additionalTenant = null) {
-        Book.where {
-            tenant in resolvedTenantIds(additionalTenant)
-        }
+    DetachedCriteria<Book> getDetachedCriteria() {
+        Book.where {}
     }
 
-    abstract Book save(String title,  String author,  String about,  String href,  String image)
+    abstract Book save(String title, String author, String about, String href,  String image)
 
-    List<Book> find(Map args, String additionalTenant = null) {
-        DetachedCriteria<Book> c = criteriaWithArgs(criteriaWithAdditionalTenant(additionalTenant), args)
+    List<Book> find(QueryArgs args, String additionalTenant = null) {
+        DetachedCriteria<Book> c = criteriaInTenants(additionalTenant, args)
         Tenants.withoutId {
             c.list()
         }
     }
 
     Number count(String additionalTenant = null) {
-        DetachedCriteria<Book> c = criteriaWithAdditionalTenant(additionalTenant)
+        DetachedCriteria<Book> c = criteriaInTenants(additionalTenant)
         Tenants.withoutId {
             c.count()
         }
     }
-
-
 }
