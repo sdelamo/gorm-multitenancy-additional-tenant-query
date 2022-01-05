@@ -1,5 +1,23 @@
 # Grails Multi-Tenancy Example
 
+The [cache branch](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/tree/cache) of this repository contains logic showing how to use [Grails Cache Plugin]( http://grails-plugins.github.io/grails-cache/) 
+with the tenant Id as part of the cache key. 
+
+The sample code
+ 
+- [Overrides bean `customCacheKeyGenerator`](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/blob/cache/grails-app/conf/spring/resources.groovy#L4-L7). It [adds the tenantId as part of the key](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/blob/cache/src/main/groovy/example/cache/TenantAwareCustomCacheKeyGenerator.groovy#L31). 
+- Creates [several cache related classes](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/tree/cache/src/main/groovy/example/cache) based on the plugin default [`CustomCacheKeyGenerator`](https://github.com/grails-plugins/grails-cache/blob/master/src/ast/groovy/grails/plugin/cache/CustomCacheKeyGenerator.groovy)
+- Adds a [EvictController](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/blob/cache/grails-app/controllers/example/cache/EvictController.groovy) and [service](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/blob/cache/grails-app/services/example/cache/TenantAwareCacheEvictService.groovy). They show how to evict cache for a particular tenant.
+- Adds [@Cacheable to the BookListService](https://github.com/sdelamo/gorm-multitenancy-additional-tenant-query/blob/cache/grails-app/services/example/BookListService.groovy#L22).
+
+When the cache is not hit you will see a log line:
+
+`INFO --- [nio-8080-exec-2] example.BookListService                  : not cached`
+
+The index page of the application [http://localhost:8080](http://localhost:8080) contains links to evict the cache. 
+
+---
+
 This [Grails](https://grails.org) application uses [GORM for Hibernate](http://gorm.grails.org/latest/hibernate/manual/index.html).
 
 It uses `DISCRIMINATOR` multi-tenancy mode by setting at `grails-app/conf/application.yml` the following:
