@@ -58,4 +58,14 @@ class QueryArgs implements Validateable {
     static Query.Order.Direction directionOf(String direction) {
         "desc".equalsIgnoreCase(direction) ? Query.Order.Direction.DESC : Query.Order.Direction.ASC
     }
+
+
+    @Override
+    String toString() {
+        return "QueryArgs{" +
+                "order=" + order +
+                ", max=" + max +
+                ", offset=" + offset +
+                '}';
+    }
 }

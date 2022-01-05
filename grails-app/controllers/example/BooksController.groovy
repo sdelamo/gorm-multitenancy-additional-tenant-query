@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class BooksController implements GrailsConfigurationAware {
 
-    BookService bookService
+    BookListService bookListService
 
     int max
 
@@ -49,17 +49,11 @@ class BooksController implements GrailsConfigurationAware {
                 .build()
         Tenants.withId(tenantIds.first()) {
             String additionalTenant = tenantIds.length > 1 ? tenantIds.last() : null
-            Number numberOfBooks = bookService.count(additionalTenant)
-            List<Book> books = bookService.find(args, additionalTenant)
-            int totalPages = (int) Math.ceil((numberOfBooks / max) as double)
-            List<Page> pages = []
-            for (int i = 1; i <= totalPages; i++) {
-                pages << new Page(number: i, active: page == i)
-            }
+            BookPage bookPage = bookListService.find(args, additionalTenant)
             [
-                    pages: pages,
-                    books: books,
-                    count:numberOfBooks,
+                    pages: bookPage.pages,
+                    books: bookPage.books,
+                    count: bookPage.count,
                     tenantId: tenantIds.join('')
             ] as Map<String, Object>
         }

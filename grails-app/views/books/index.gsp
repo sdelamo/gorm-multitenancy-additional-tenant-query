@@ -11,5 +11,11 @@
     <li><g:link controller="books" action="groovy">Groovy</g:link></li>
     <li><g:link controller="books" action="groovygrails">Groovy & Grails</g:link></li>
 </ol>
+
+<ol>
+    <li><g:link controller="evict" action="grails">Evict Grails Cache</g:link></li>
+    <li><g:link controller="evict" action="micronaut">Evict Micronaut Cache</g:link></li>
+    <li><g:link controller="evict" action="groovy">Evict Groovy Cache</g:link></li>
+</ol>
 </body>
 </html>

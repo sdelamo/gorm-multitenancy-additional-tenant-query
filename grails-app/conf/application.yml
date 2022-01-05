@@ -108,8 +108,8 @@ dataSource:
     driverClassName: org.h2.Driver
     username: sa
     password: ''
-    logSql: true
-    formatSql: true
+    logSql: false
+    formatSql: false
 environments:
     development:
         dataSource:
@@ -141,3 +141,10 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+grails:
+    cache:
+        cacheManager: GrailsConcurrentLinkedMapCacheManager
+        caches:
+            books:
+                maxCapacity: 5000
